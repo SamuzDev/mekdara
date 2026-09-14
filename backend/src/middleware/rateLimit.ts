@@ -8,7 +8,8 @@ import { Database } from "bun:sqlite";
 import path from "path";
 import fs from "fs";
 
-const DB_PATH = process.env.DB_PATH ?? "./data/mekdara.db";
+const IS_VERCEL = process.env.VERCEL === "1";
+const DB_PATH = process.env.DB_PATH ?? (IS_VERCEL ? "/tmp/mekdara.db" : "./data/mekdara.db");
 
 // Ensure directory exists
 const dbDir = path.dirname(DB_PATH);
