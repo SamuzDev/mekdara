@@ -35,3 +35,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Database files
 backend/data/
+
+# Better Auth auto-generated migrations (keep backend/migrations/auth/schema.sql versioned)
+better-auth_migrations/
+*.sql
+!backend/migrations/auth/schema.sql
