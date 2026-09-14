@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Mekdara - Convert Web Pages & PDFs to Markdown for LLMs</title>
+    <meta name="description" content="Free tool to convert web pages and PDF documents into clean, structured Markdown optimized for LLM context. Works with ChatGPT, Claude, Gemini and more." />
+    <meta name="keywords" content="markdown converter, web to markdown, pdf to markdown, LLM context, ChatGPT, Claude, AI text extraction, readability" />
+    <meta name="author" content="SamuzDev" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mekdara.vercel.app" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#09090b" />
+
+    <!-- Fonts: preload for faster FCP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph (og:image must be absolute for social crawlers) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mekdara.vercel.app" />
+    <meta property="og:title" content="Mekdara - Convert Web Pages & PDFs to Markdown for LLMs" />
+    <meta property="og:description" content="Free tool to convert web pages and PDF documents into clean, structured Markdown optimized for LLM context." />
+    <meta property="og:image" content="https://mekdara.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Mekdara" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mekdara - Convert Web Pages & PDFs to Markdown for LLMs" />
+    <meta name="twitter:description" content="Free tool to convert web pages and PDF documents into clean, structured Markdown optimized for LLM context." />
+    <meta name="twitter:image" content="https://mekdara.vercel.app/og-image.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Mekdara",
+      "url": "https://mekdara.vercel.app",
+      "description": "Free tool to convert web pages and PDF documents into clean, structured Markdown optimized for LLM context.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "featureList": ["Convert web pages to Markdown", "Convert PDF to Markdown", "Token counting for LLM context"]
+    }
+    </script>
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      (function(){var O=location.origin;var l=document.querySelector('link[rel="canonical"]');if(l)l.href=O;var u=document.querySelector('meta[property="og:url"]');if(u)u.content=O;var s=document.querySelector('script[type="application/ld+json"]');if(s){var d=JSON.parse(s.textContent);d.url=O;s.textContent=JSON.stringify(d)}})();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

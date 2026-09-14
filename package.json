@@ -1,0 +1,16 @@
+{
+  "name": "mekdara",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "dev": "bun run --parallel --filter '*' dev"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}
