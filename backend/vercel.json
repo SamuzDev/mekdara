@@ -3,6 +3,11 @@
   "bunVersion": "1.4.x",
   "buildCommand": "bun run build",
   "outputDirectory": "dist",
+  "functions": {
+    "dist/index.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "routes": [
     {
       "src": "/(.*)",
