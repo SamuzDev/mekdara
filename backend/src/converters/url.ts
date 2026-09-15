@@ -3,9 +3,9 @@
  * Mozilla Readability, and converts to Markdown via Turndown.
  */
 
-import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import TurndownService from "turndown";
+import { createDOM } from "./jsdom.js";
 
 const turndown = new TurndownService();
 
@@ -101,7 +101,7 @@ export async function convertUrl(url: string): Promise<ConversionResult> {
     }
 
     const htmlContent = new TextDecoder().decode(arrayBuffer);
-    const dom = new JSDOM(htmlContent, { url });
+    const dom = await createDOM(htmlContent, { url });
     const reader = new Readability(dom.window.document);
     const article = reader.parse();
 
