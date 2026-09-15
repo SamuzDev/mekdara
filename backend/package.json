@@ -32,5 +32,9 @@
     "react": "^19.3.0",
     "turndown": "^7.2.4",
     "zod": "^4.6.5"
-  }
+  },
+  "trustedDependencies": [
+    "better-auth",
+    "@better-auth/telemetry"
+  ]
 }
