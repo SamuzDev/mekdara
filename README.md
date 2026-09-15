@@ -4,10 +4,13 @@
 
 Built by **SamuzDev**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Bun](https://cdn.jsdelivr.net/gh/Joonas99/bun-badge/bun-badge.svg)](https://bun.sh)
-[![React](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/react/icons/react/react-original.svg)](https://react.dev)
-[![Tailwind](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/tailwindcss/tailwindcss-original.svg)](https://tailwindcss.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Bun](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg)](https://bun.sh)
+[![React](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg)](https://react.dev)
+[![Tailwind](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg)](https://tailwindcss.com)
+[![Elysia](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/elysia/elysia-original.svg)](https://elysiajs.com)
+[![TypeScript](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg)](https://typescriptlang.org)
+[![Neon](https://img.shields.io/badge/Neon-00D4AA?style=flat-square&logo=neon&logoColor=white)](https://neon.tech)
 
 [Quick Start](#quick-start) | [API](#api-reference) | [Self-Host](#self-hosted-deployment)
 
