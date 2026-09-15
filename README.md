@@ -5,28 +5,28 @@
 Built by **SamuzDev**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
-[![Bun](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg)](https://bun.sh)
-[![React](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg)](https://react.dev)
-[![Tailwind](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg)](https://tailwindcss.com)
-[![Elysia](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/elysia/elysia-original.svg)](https://elysiajs.com)
-[![TypeScript](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg)](https://typescriptlang.org)
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg" width="20" height="20" alt="Bun" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" width="20" height="20" alt="React" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20" alt="Tailwind" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/elysia/elysia-original.svg" width="20" height="20" alt="Elysia" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width="20" height="20" alt="TypeScript" />&nbsp;
 [![Neon](https://img.shields.io/badge/Neon-00D4AA?style=flat-square&logo=neon&logoColor=white)](https://neon.tech)
 
 [Quick Start](#quick-start) | [API](#api-reference) | [Self-Host](#self-hosted-deployment)
 
 ---
 
-## Sobre el proyecto
+## About the Project
 
-**Mekdara** es un convertidor de páginas web y documentos a Markdown optimizado para LLMs (modelos de lenguaje). Convierte URLs, PDFs, DOCX, HTML y texto en Markdown limpio con conteo de tokens, ideal para preparar contexto para ChatGPT, Claude, Gemini y otros.
+**Mekdara** converts web pages and documents to clean Markdown optimized for LLMs. Convert URLs, PDFs, DOCX, HTML, and text into clean Markdown with token counting, perfect for preparing context for ChatGPT, Claude, Gemini, and others.
 
-⚡ **Características clave:**
-- Conversión de URLs, PDFs, DOCX, HTML y texto
-- Conteo de tokens para contexto de LLM
-- Descarga directa de archivos `.md`
-- Autenticación con Better Auth (email + GitHub OAuth)
-- Rate limiting por IP/API key
-- Deploy en Vercel (monorepo: frontend + backend)
+⚡ **Key Features:**
+- Convert URLs, PDFs, DOCX, HTML, and text
+- Token counting for LLM context
+- Direct `.md` file download
+- Authentication via Better Auth (email + GitHub OAuth)
+- Rate limiting by IP/API key
+- Deploy on Vercel (monorepo: frontend + backend)
 
 🛠 **Tech Stack:** Bun · Elysia · React 19 · Tailwind CSS 4 · shadcn/ui · Neon Postgres
 
