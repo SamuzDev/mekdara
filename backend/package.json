@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run dist/index.js",
+    "build": "bun build ./server.ts --outfile=dist/index.js --target=node"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
