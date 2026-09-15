@@ -18,7 +18,6 @@
     "@elysiajs/cors": "^1.4.2",
     "@mozilla/readability": "^0.6.0",
     "@types/pg": "^8.23.1",
-    "@vercel/analytics": "^2.0.1",
     "better-auth": "^1.7.4",
     "elysia": "^1.4.30",
     "jsdom": "^30.0.1",
