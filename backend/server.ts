@@ -1,3 +1,4 @@
+import "@better-auth/telemetry";
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { convertRoutes } from "./src/routes/convert";

@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
-# Use npm instead of bun to avoid .bun cache symlink issues
-# npm creates a flat node_modules structure that resolves peer dependencies correctly
-npm install --legacy-peer-deps
+# Copy root lockfile
+cp ../bun.lock . 2>/dev/null || true
+
+# Install dependencies
+bun install
