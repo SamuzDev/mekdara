@@ -4,7 +4,7 @@
   "buildCommand": "bun run build",
   "outputDirectory": "dist",
   "functions": {
-    "server.ts": {
+    "api/server.ts": {
       "memory": 1024,
       "maxDuration": 15
     }
