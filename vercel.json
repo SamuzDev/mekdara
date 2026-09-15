@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "bun": "1.4.x",
+  "bunVersion": "1.4.x",
   "services": {
     "frontend": {
       "root": "frontend",
