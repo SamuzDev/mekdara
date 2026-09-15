@@ -21,7 +21,7 @@
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.1.0",
     "@types/pg": "^8.23.1",
-    "better-auth": "^1.7.4",
+    "better-auth": "1.7.5",
     "elysia": "^1.4.30",
     "jsdom": "^30.0.1",
     "mammoth": "^1.12.3",

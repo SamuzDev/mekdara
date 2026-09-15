@@ -20,7 +20,7 @@
         "@react-email/components": "^1.0.12",
         "@react-email/render": "^2.1.0",
         "@types/pg": "^8.23.1",
-        "better-auth": "^1.7.4",
+        "better-auth": "1.7.5",
         "elysia": "^1.4.30",
         "jsdom": "^30.0.1",
         "mammoth": "^1.12.3",
@@ -80,6 +80,10 @@
       },
     },
   },
+  "trustedDependencies": [
+    "@better-auth/telemetry",
+    "better-auth",
+  ],
   "packages": {
     "@asamuzakjp/css-color": ["@asamuzakjp/css-color@6.0.7", "", { "dependencies": { "@csstools/css-calc": "^3.3.0", "@csstools/css-color-parser": "^4.1.10", "@csstools/css-parser-algorithms": "^4.0.0", "@csstools/css-tokenizer": "^4.0.0", "lru-cache": "^11.5.2" } }, "sha512-vC/bk1Lz7Tn/EfU9/apOTBk80/8dyGyWMowPoV1tJ52muDGsDqt2HPT2klrFUiY60MQmQv9q8yIht15JnBgDGw=="],
 
