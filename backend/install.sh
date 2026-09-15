@@ -16,7 +16,9 @@ for entry in os.listdir(bun_dir):
     if entry.startswith('better-auth'):
         dest = os.path.join(bun_dir, entry, 'node_modules', '@better-auth', 'telemetry')
         src = os.path.join('node_modules', '@better-auth', 'telemetry')
-        if os.path.islink(dest) or os.path.exists(dest):
+        if os.path.islink(dest):
+            os.remove(dest)
+        elif os.path.exists(dest):
             shutil.rmtree(dest)
         if os.path.isdir(src):
             shutil.copytree(src, dest)
