@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "bunVersion": "1.4.x",
-  "installCommand": "cp ../bun.lock . 2>/dev/null; bun install && for d in node_modules/.bun/better-auth@*/node_modules; do mkdir -p \"$d/@better-auth\" && ln -sfn \"../../../../@better-auth/telemetry\" \"$d/@better-auth/telemetry\" 2>/dev/null; done || true"
+  "installCommand": "cp ../bun.lock . 2>/dev/null; bun install && python3 -c \"import os,shutil;b='node_modules/.bun';[shutil.copytree('node_modules/@better-auth/telemetry',os.path.join(b,e,'node_modules','@better-auth','telemetry'),dirs_exist_ok=True) for e in os.listdir(b) if e.startswith('better-auth')]\""
 }
