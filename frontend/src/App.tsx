@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Header } from "./components/Header";
 import { TabBar, type Tab } from "./components/TabBar";
 import { UrlInput } from "./components/UrlInput";
@@ -162,6 +163,7 @@ function App() {
       <div className="mesh-bg" />
       <div className="noise-overlay" />
       <Toaster position="bottom-center" />
+      <SpeedInsights />
 
       <main className="relative z-10 mx-auto flex w-full max-w-2xl flex-col gap-10 px-5 py-20 sm:px-6">
         <Header />

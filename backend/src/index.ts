@@ -29,7 +29,6 @@ console.log(
   `🦊 Elysia running at http://${app.server?.hostname}:${app.server?.port}`
 );
 
-// Graceful shutdown
 const shutdown = async (signal: string) => {
   console.log(`Received ${signal}. Shutting down gracefully...`);
   try {
@@ -42,3 +41,5 @@ const shutdown = async (signal: string) => {
 
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));
+
+export default app;
