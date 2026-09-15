@@ -4,5 +4,6 @@ set -e
 # Copy root lockfile
 cp ../bun.lock . 2>/dev/null || true
 
-# Install dependencies
+# Force clean install - build cache may have broken symlinks
+rm -rf node_modules
 bun install
