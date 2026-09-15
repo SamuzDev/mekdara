@@ -12,8 +12,7 @@ export async function convertPdf(buffer: Buffer): Promise<ConversionResult> {
     return {
       markdown: data.text,
       metadata: {
-        pages: data.numpages ?? undefined,
-        info: data.info ?? undefined,
+        pages: data.total ?? undefined,
       },
     };
   } finally {
