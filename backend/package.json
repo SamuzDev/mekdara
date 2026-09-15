@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bun run --watch server.ts",
     "start": "bun run dist/server.js",
-    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external pdf-parse --external jsdom --external @mozilla/readability --external mammoth"
+    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external pdf-parse --external jsdom --external @mozilla/readability"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
