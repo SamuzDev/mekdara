@@ -13,9 +13,6 @@
     "@types/papaparse": "^5.5.2",
     "@types/turndown": "^5.0.6"
   },
-  "peerDependencies": {
-    "typescript": "^7"
-  },
   "dependencies": {
     "@elysiajs/cors": "^1.4.2",
     "@mozilla/readability": "^0.6.0",
