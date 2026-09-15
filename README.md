@@ -5,11 +5,27 @@
 Built by **SamuzDev**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Bun](https://img.shields.io/badge/Bun-1.1+-000000.svg)](https://bun.sh)
-[![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev)
-[![Tailwind](https://img.shields.io/badge/Tailwind-4-38BDF8.svg)](https://tailwindcss.com)
+[![Bun](https://cdn.jsdelivr.net/gh/Joonas99/bun-badge/bun-badge.svg)](https://bun.sh)
+[![React](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/react/icons/react/react-original.svg)](https://react.dev)
+[![Tailwind](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/tailwindcss/tailwindcss-original.svg)](https://tailwindcss.com)
 
 [Quick Start](#quick-start) | [API](#api-reference) | [Self-Host](#self-hosted-deployment)
+
+---
+
+## Sobre el proyecto
+
+**Mekdara** es un convertidor de páginas web y documentos a Markdown optimizado para LLMs (modelos de lenguaje). Convierte URLs, PDFs, DOCX, HTML y texto en Markdown limpio con conteo de tokens, ideal para preparar contexto para ChatGPT, Claude, Gemini y otros.
+
+⚡ **Características clave:**
+- Conversión de URLs, PDFs, DOCX, HTML y texto
+- Conteo de tokens para contexto de LLM
+- Descarga directa de archivos `.md`
+- Autenticación con Better Auth (email + GitHub OAuth)
+- Rate limiting por IP/API key
+- Deploy en Vercel (monorepo: frontend + backend)
+
+🛠 **Tech Stack:** Bun · Elysia · React 19 · Tailwind CSS 4 · shadcn/ui · Neon Postgres
 
 ---
 
