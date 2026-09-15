@@ -1,5 +1,9 @@
 {
-  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@better-auth/telemetry": ["./telemetry-stub.ts"]
+    },
+    "compilerOptions": {
     // Environment setup & latest features
     "lib": ["ESNext"],
     "target": "ESNext",

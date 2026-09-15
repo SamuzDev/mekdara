@@ -1,16 +1,5 @@
 {
   "$schema": "https://vercel.sh",
   "bunVersion": "1.4.x",
-  "installCommand": "bun install",
-  "functions": {
-    "api/index.ts": {
-      "includeFiles": "node_modules/@better-auth/telemetry/**"
-    }
-  },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.ts"
-    }
-  ]
+  "installCommand": "bun install"
 }
