@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-# Don't copy bun.lock - npm will create its own package-lock.json
-# bun.lock has workspace metadata that npm doesn't understand
+# Don't copy bun.lock - workspace metadata causes symlinks to root .bun
+# which doesn't exist on Vercel runtime. Let bun create fresh lockfile.
 
-# Force clean install with npm (avoids .bun symlink issues)
-rm -rf node_modules package-lock.json
-npm install --legacy-peer-deps
+# Force clean install
+rm -rf node_modules bun.lock
+bun install
