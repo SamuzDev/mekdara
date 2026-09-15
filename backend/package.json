@@ -14,6 +14,7 @@
     "@types/turndown": "^5.0.6"
   },
   "dependencies": {
+    "@better-auth/telemetry": "^1.7.5",
     "@elysiajs/cors": "^1.4.2",
     "@mozilla/readability": "^0.6.0",
     "@types/pg": "^8.23.1",
