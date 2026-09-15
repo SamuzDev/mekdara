@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "bunVersion": "1.4.x",
   "services": {
     "frontend": {
       "root": "frontend",
@@ -11,7 +12,6 @@
     },
     "backend": {
       "root": "backend",
-      "bunVersion": "1.4.x",
       "buildCommand": "bun build vercel.ts --outdir dist --target bun",
       "outputDirectory": "dist",
       "installCommand": "bun install",
