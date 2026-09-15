@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { convertRoutes } from "./src/routes/convert";
 import { authRoutes } from "./src/routes/auth";
-import { rateLimitPlugin } from "./src/middleware/rateLimitPlugin";
+import { rateLimitPluginVercel } from "./src/middleware/rateLimitPluginVercel";
 import { healthRoutes } from "./src/routes/health";
 import { logger } from "./src/middleware/logger";
 
@@ -17,7 +17,7 @@ const app = new Elysia()
       allowedHeaders: ["Content-Type", "Authorization"],
     })
   )
-  .use(rateLimitPlugin)
+  .use(rateLimitPluginVercel)
   .use(healthRoutes)
   .use(authRoutes)
   .use(convertRoutes);
