@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --watch server.ts",
-    "start": "bun run dist/server.js",
-    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external jsdom --external @mozilla/readability"
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run dist/index.js",
+    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external jsdom --external @mozilla/readability --external @napi-rs/canvas"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
@@ -19,6 +19,7 @@
     "@better-auth/telemetry": "^1.7.5",
     "@elysiajs/cors": "^1.4.2",
     "@mozilla/readability": "^0.6.0",
+    "@napi-rs/canvas": "^1.0.9",
     "@opentelemetry/api": "^1.9.1",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.1.0",
