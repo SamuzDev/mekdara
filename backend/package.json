@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun run --watch server.ts",
-    "start": "bun run server.ts"
+    "start": "bun run dist/server.js",
+    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external better-auth --external @better-auth/* --external @opentelemetry/*"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
