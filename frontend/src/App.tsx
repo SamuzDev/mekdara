@@ -11,6 +11,7 @@ import { ResultView } from "./components/ResultView";
 import { Footer } from "./components/Footer";
 import { ApiKeyModal } from "./components/ApiKeyModal";
 import { LoginModal } from "./components/LoginModal";
+import { ResetPassword } from "./components/ResetPassword";
 import { UserMenu } from "./components/UserMenu";
 import { useSession } from "@/lib/auth-client";
 import { KeyRound, LogIn } from "lucide-react";
@@ -35,6 +36,17 @@ function App() {
     const stored = localStorage.getItem("mekdara_api_key");
     if (stored) setApiKey(stored);
   }, []);
+
+  if (window.location.pathname === "/reset-password") {
+    return (
+      <div className="relative min-h-dvh flex-col">
+        <div className="mesh-bg" />
+        <div className="noise-overlay" />
+        <Toaster position="bottom-center" />
+        <ResetPassword />
+      </div>
+    );
+  }
 
   const headers: Record<string, string> = {};
   if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;

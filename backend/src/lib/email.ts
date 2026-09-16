@@ -23,8 +23,8 @@ export async function sendPasswordResetEmail({
   username,
   resetToken,
 }: SendPasswordResetEmailProps): Promise<boolean> {
-  const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:5173";
-  const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
+  const frontendUrl = process.env.CORS_ORIGIN ?? "http://localhost:5173";
+  const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
 
   const html = await render(
     PasswordResetEmail({ username, resetUrl })
