@@ -1,45 +1,107 @@
-import nodemailer from "nodemailer";
-import { render } from "@react-email/render";
-import PasswordResetEmail from "../emails/password-reset";
+const EMAILJS_API = "https://api.emailjs.com/api/v1.0/email/send";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST ?? "smtp.resend.com",
-  port: parseInt(process.env.SMTP_PORT ?? "587", 10),
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.SMTP_USER ?? "resend",
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
+interface SendEmailProps {
+  to: string;
+  templateId: string;
+  templateParams: Record<string, string>;
+}
+
+async function sendEmail({ to, templateId, templateParams }: SendEmailProps): Promise<boolean> {
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+
+  if (!publicKey || !serviceId || !privateKey) {
+    console.error("[Email] Missing EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, or EMAILJS_PRIVATE_KEY");
+    return false;
+  }
+
+  const response = await fetch(EMAILJS_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      accessToken: privateKey,
+      template_params: {
+        to_email: to,
+        ...templateParams,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    console.error("[Email] Failed to send email:", response.status, text);
+    throw new Error(`Email send failed: ${response.status}`);
+  }
+
+  return true;
+}
 
 interface SendPasswordResetEmailProps {
   to: string;
   username?: string;
-  resetToken: string;
+  resetUrl: string;
 }
 
 export async function sendPasswordResetEmail({
   to,
   username,
-  resetToken,
+  resetUrl,
 }: SendPasswordResetEmailProps): Promise<boolean> {
-  const frontendUrl = process.env.CORS_ORIGIN ?? "http://localhost:5173";
-  const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
+  const templateId = process.env.EMAILJS_TEMPLATE_PASSWORD_RESET;
 
-  const html = await render(
-    PasswordResetEmail({ username, resetUrl })
-  );
+  if (!templateId) {
+    console.error("[Email] Missing EMAILJS_TEMPLATE_PASSWORD_RESET");
+    return false;
+  }
 
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM ?? "Mekdara <noreply@mekdara.dev>",
+    return await sendEmail({
       to,
-      subject: "Reset your Mekdara password",
-      html,
+      templateId,
+      templateParams: {
+        username: username || "there",
+        resetUrl,
+      },
     });
-    return true;
   } catch (error) {
-    console.error("Failed to send password reset email:", error);
+    console.error("[Email] Failed to send password reset email:", error);
+    throw error;
+  }
+}
+
+interface SendVerificationEmailProps {
+  to: string;
+  username?: string;
+  verificationUrl: string;
+}
+
+export async function sendVerificationEmail({
+  to,
+  username,
+  verificationUrl,
+}: SendVerificationEmailProps): Promise<boolean> {
+  const templateId = process.env.EMAILJS_TEMPLATE_VERIFICATION;
+
+  if (!templateId) {
+    console.error("[Email] Missing EMAILJS_TEMPLATE_VERIFICATION");
     return false;
+  }
+
+  try {
+    return await sendEmail({
+      to,
+      templateId,
+      templateParams: {
+        username: username || "there",
+        verificationUrl,
+      },
+    });
+  } catch (error) {
+    console.error("[Email] Failed to send verification email:", error);
+    throw error;
   }
 }

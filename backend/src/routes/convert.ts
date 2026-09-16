@@ -4,6 +4,7 @@ import { convertUrl, convertBuffer } from "../converters";
 import { estimateTokens } from "../utils/tokens";
 
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE ?? "10485760", 10);
+const MAX_CONTENT_LENGTH = MAX_FILE_SIZE;
 
 function buildResponse(markdown: string, format?: string, title?: string, metadata?: Record<string, unknown>) {
   const markdown_tokens = estimateTokens(markdown);
@@ -21,6 +22,15 @@ function buildResponse(markdown: string, format?: string, title?: string, metada
   };
 }
 
+function getErrorMessage(err: unknown): string {
+  const msg = (err as Error).message ?? "Unknown error";
+  if (msg.includes("SSRF protection")) return "URL scheme or host is not allowed";
+  if (msg.includes("Response too large")) return "Response too large";
+  if (msg.includes("Failed to download")) return "Failed to fetch the URL";
+  if (msg.includes("Too many redirects")) return "Too many redirects";
+  return "Conversion failed";
+}
+
 export const convertRoutes = new Elysia({ prefix: "/api/convert" })
   .post(
     "/url",
@@ -30,7 +40,7 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
         return buildResponse(result.markdown, "url", result.title, result.metadata);
       } catch (err) {
         set.status = 400;
-        return { error: (err as Error).message };
+        return { error: getErrorMessage(err) };
       }
     },
     { body: urlRequestSchema }
@@ -43,16 +53,14 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
 
         if (buffer.byteLength > MAX_FILE_SIZE) {
           set.status = 413;
-          return {
-            error: `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB`,
-          };
+          return { error: `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB` };
         }
 
         const result = await convertBuffer(buffer, body.file.name);
         return buildResponse(result.markdown, result.format, result.title, result.metadata);
       } catch (err) {
         set.status = 422;
-        return { error: (err as Error).message };
+        return { error: "Failed to process the file" };
       }
     },
     { body: t.Object({ file: t.File() }) }
@@ -65,16 +73,14 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
 
         if (buffer.byteLength > MAX_FILE_SIZE) {
           set.status = 413;
-          return {
-            error: `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB`,
-          };
+          return { error: `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB` };
         }
 
         const result = await convertBuffer(buffer, body.file.name);
         return buildResponse(result.markdown, result.format, result.title, result.metadata);
       } catch (err) {
         set.status = 422;
-        return { error: (err as Error).message };
+        return { error: "Failed to process the file" };
       }
     },
     { body: t.Object({ file: t.File() }) }
@@ -83,27 +89,35 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
     "/html",
     async ({ body, set }) => {
       try {
+        if (body.content.length > MAX_CONTENT_LENGTH) {
+          set.status = 413;
+          return { error: `Content too large. Maximum size: ${MAX_CONTENT_LENGTH / 1024 / 1024}MB` };
+        }
         const buffer = Buffer.from(body.content, "utf-8");
         const result = await convertBuffer(buffer, "input.html");
         return buildResponse(result.markdown, "html", result.title, result.metadata);
       } catch (err) {
         set.status = 422;
-        return { error: (err as Error).message };
+        return { error: "Failed to process the HTML content" };
       }
     },
-    { body: t.Object({ content: t.String({ minLength: 1 }) }) }
+    { body: t.Object({ content: t.String({ minLength: 1, maxLength: MAX_CONTENT_LENGTH }) }) }
   )
   .post(
     "/text",
     async ({ body, set }) => {
       try {
+        if (body.content.length > MAX_CONTENT_LENGTH) {
+          set.status = 413;
+          return { error: `Content too large. Maximum size: ${MAX_CONTENT_LENGTH / 1024 / 1024}MB` };
+        }
         const buffer = Buffer.from(body.content, "utf-8");
         const result = await convertBuffer(buffer, "input.txt");
         return buildResponse(result.markdown, "text", result.title, result.metadata);
       } catch (err) {
         set.status = 422;
-        return { error: (err as Error).message };
+        return { error: "Failed to process the text content" };
       }
     },
-    { body: t.Object({ content: t.String({ minLength: 1 }) }) }
+    { body: t.Object({ content: t.String({ minLength: 1, maxLength: MAX_CONTENT_LENGTH }) }) }
   );

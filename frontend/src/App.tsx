@@ -9,13 +9,12 @@ import { FileUpload } from "./components/FileUpload";
 import { TextAreaInput } from "./components/TextAreaInput";
 import { ResultView } from "./components/ResultView";
 import { Footer } from "./components/Footer";
-import { ApiKeyModal } from "./components/ApiKeyModal";
 import { LoginModal } from "./components/LoginModal";
 import { ResetPassword } from "./components/ResetPassword";
-import { UserMenu } from "./components/UserMenu";
-import { LightRays } from "./components/LightRays";
+import { UserProfilePopover } from "./components/UserProfilePopover";
+import { AuroraBackground } from "./components/AuroraBackground";
 import { useSession } from "@/lib/auth-client";
-import { KeyRound, LogIn } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -29,7 +28,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState<string | null>(null);
-  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [rateLimitInfo, setRateLimitInfo] = useState<{ remaining: number; limit: number } | null>(null);
 
@@ -41,7 +39,7 @@ function App() {
   if (window.location.pathname === "/reset-password") {
     return (
       <div className="relative min-h-dvh flex-col">
-        <LightRays count={5} color="rgba(140, 120, 255, 0.12)" blur={44} speed={18} length="80vh" />
+        <AuroraBackground />
         <div className="noise-overlay" />
         <Toaster position="bottom-center" />
         <ResetPassword />
@@ -160,7 +158,6 @@ function App() {
   const handleSaveApiKey = (key: string) => {
     setApiKey(key);
     localStorage.setItem("mekdara_api_key", key);
-    setShowApiKeyModal(false);
   };
 
   const handleClearApiKey = () => {
@@ -174,7 +171,7 @@ function App() {
 
   return (
     <div className="relative min-h-dvh flex-col">
-      <LightRays count={8} color="rgba(140, 120, 255, 0.15)" blur={40} speed={16} length="75vh" />
+      <AuroraBackground />
       <div className="noise-overlay" />
       <Toaster position="bottom-center" />
       <SpeedInsights />
@@ -190,7 +187,11 @@ function App() {
             {isPending ? (
               <div className="h-8 w-20 rounded-lg skeleton" />
             ) : session?.user ? (
-              <UserMenu />
+              <UserProfilePopover
+                apiKey={apiKey}
+                onSaveApiKey={handleSaveApiKey}
+                onClearApiKey={handleClearApiKey}
+              />
             ) : (
               <Button
                 variant="ghost"
@@ -202,15 +203,6 @@ function App() {
                 Sign In
               </Button>
             )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowApiKeyModal(true)}
-              className="gap-1.5 rounded-lg text-xs text-muted-foreground/45 hover:text-foreground hover:bg-muted/25"
-            >
-              <KeyRound className="size-3.5" />
-              {apiKey ? "API Key" : "Get Key"}
-            </Button>
           </div>
         </div>
 
@@ -263,14 +255,6 @@ function App() {
 
         <Footer />
       </main>
-
-      <ApiKeyModal
-        open={showApiKeyModal}
-        onOpenChange={setShowApiKeyModal}
-        currentKey={apiKey}
-        onSave={handleSaveApiKey}
-        onClear={handleClearApiKey}
-      />
 
       <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </div>

@@ -25,18 +25,10 @@ export const healthRoutes = new Elysia()
   .get("/health/db", async () => {
     try {
       const client = await getPool().connect();
-      const result = await client.query("SELECT NOW() as time, current_database() as db");
+      await client.query("SELECT 1");
       client.release();
-      return {
-        status: "ok",
-        database: result.rows[0].db,
-        serverTime: result.rows[0].time,
-      };
-    } catch (err: any) {
-      return {
-        status: "error",
-        message: err.message,
-        code: err.code,
-      };
+      return { status: "ok" };
+    } catch {
+      return { status: "error" };
     }
   });

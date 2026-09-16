@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
-import { sendPasswordResetEmail } from "./lib/email";
+import { sendPasswordResetEmail, sendVerificationEmail } from "./lib/email";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -29,6 +29,11 @@ export const auth = betterAuth({
       enabled: true,
       maxAge: 60 * 60 * 24 * 7,
     },
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "lax",
+    },
   },
   account: {
     storeStateStrategy: "database",
@@ -44,14 +49,21 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url, token }) => {
-      const frontendUrl = process.env.CORS_ORIGIN ?? "http://localhost:5173";
-      const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
-      await sendPasswordResetEmail({
+    sendVerificationEmail: async ({ user, url }) => {
+      const sent = await sendVerificationEmail({
         to: user.email,
         username: user.name,
-        resetToken: token,
+        verificationUrl: url,
       });
+      if (!sent) throw new Error("Failed to send verification email");
+    },
+    sendResetPassword: async ({ user, url }) => {
+      const sent = await sendPasswordResetEmail({
+        to: user.email,
+        username: user.name,
+        resetUrl: url,
+      });
+      if (!sent) throw new Error("Failed to send password reset email");
     },
   },
   advanced: {

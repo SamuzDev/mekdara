@@ -7,8 +7,8 @@ export const authRoutes = new Elysia({ prefix: "/api/auth" })
       const response = await auth.handler(request);
       return response;
     } catch (err: any) {
-      console.error("[Auth] Error:", err.message, err.stack);
+      console.error("[Auth] Error:", err.message);
       set.status = 500;
-      return { error: "Auth handler error", message: err.message };
+      return { error: "Internal server error" };
     }
   });

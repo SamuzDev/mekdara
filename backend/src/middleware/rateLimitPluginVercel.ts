@@ -7,13 +7,21 @@ import {
 
 /**
  * Extract client IP from request headers.
- * Supports X-Forwarded-For (proxied) and direct connection.
+ * Uses Vercel's trusted x-vercel-forwarded-for header first,
+ * then falls back to X-Forwarded-For (rightmost untrusted IP).
  */
 function getClientIp(headers: Record<string, string | undefined>): string {
+  // Vercel sets this header — it's trusted and cannot be spoofed by clients
+  const vercelIp = headers["x-vercel-forwarded-for"];
+  if (vercelIp) return vercelIp.trim();
+
+  // Behind other proxies: use the RIGHTmost IP (closest to server = real client)
   const forwarded = headers["x-forwarded-for"];
   if (forwarded) {
-    return (forwarded.split(",")[0] ?? "").trim();
+    const ips = forwarded.split(",").map((ip) => ip.trim());
+    return ips[ips.length - 1] ?? "unknown";
   }
+
   return headers["x-real-ip"] ?? "unknown";
 }
 
