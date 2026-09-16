@@ -29,6 +29,9 @@ export const auth = betterAuth({
       maxAge: 60 * 60 * 24 * 7,
     },
   },
+  account: {
+    storeStateStrategy: "cookie",
+  },
   user: {
     additionalFields: {
       apiKey: {
