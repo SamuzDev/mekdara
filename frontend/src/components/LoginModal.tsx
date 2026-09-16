@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { signIn, signUp, authClient } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 
 interface LoginModalProps {
@@ -56,11 +56,16 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
     setError(null);
 
     try {
-      const result = await authClient.forgetPassword({
-        email,
-        redirectTo: `${window.location.origin}/reset-password`,
+      const res = await fetch("/api/auth/request-password-reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          redirectTo: `${window.location.origin}/reset-password`,
+        }),
       });
-      if (result.error) throw new Error(result.error.message);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to send reset email");
       setResetSent(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to send reset email");
