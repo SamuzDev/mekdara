@@ -30,7 +30,8 @@ export const auth = betterAuth({
     },
   },
   account: {
-    storeStateStrategy: "cookie",
+    storeStateStrategy: "database",
+    skipStateCookieCheck: true,
   },
   user: {
     additionalFields: {
