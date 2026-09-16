@@ -13,6 +13,7 @@ import { ApiKeyModal } from "./components/ApiKeyModal";
 import { LoginModal } from "./components/LoginModal";
 import { ResetPassword } from "./components/ResetPassword";
 import { UserMenu } from "./components/UserMenu";
+import { LightRays } from "./components/LightRays";
 import { useSession } from "@/lib/auth-client";
 import { KeyRound, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,7 +41,7 @@ function App() {
   if (window.location.pathname === "/reset-password") {
     return (
       <div className="relative min-h-dvh flex-col">
-        <div className="mesh-bg" />
+        <LightRays count={5} color="rgba(140, 120, 255, 0.12)" blur={44} speed={18} length="80vh" />
         <div className="noise-overlay" />
         <Toaster position="bottom-center" />
         <ResetPassword />
@@ -173,7 +174,7 @@ function App() {
 
   return (
     <div className="relative min-h-dvh flex-col">
-      <div className="mesh-bg" />
+      <LightRays count={8} color="rgba(140, 120, 255, 0.15)" blur={40} speed={16} length="75vh" />
       <div className="noise-overlay" />
       <Toaster position="bottom-center" />
       <SpeedInsights />

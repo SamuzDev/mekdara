@@ -64,55 +64,6 @@
   }
 }
 
-/* ===== AMBIENT BACKGROUND ===== */
-@keyframes orb-drift-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(50px, -30px) scale(1.1); }
-  50% { transform: translate(-20px, 40px) scale(0.95); }
-  75% { transform: translate(30px, 20px) scale(1.05); }
-}
-
-@keyframes orb-drift-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(-40px, 30px) scale(1.05); }
-  50% { transform: translate(30px, -20px) scale(1.1); }
-  75% { transform: translate(-20px, -40px) scale(0.95); }
-}
-
-.mesh-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.mesh-bg::before,
-.mesh-bg::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-}
-
-.mesh-bg::before {
-  width: 600px;
-  height: 600px;
-  top: -10%;
-  left: -5%;
-  background: oklch(0.3 0.15 265 / 0.08);
-  animation: orb-drift-1 20s ease-in-out infinite;
-}
-
-.mesh-bg::after {
-  width: 500px;
-  height: 500px;
-  bottom: -10%;
-  right: -5%;
-  background: oklch(0.3 0.12 300 / 0.05);
-  animation: orb-drift-2 25s ease-in-out infinite;
-}
-
 /* ===== NOISE OVERLAY ===== */
 .noise-overlay {
   position: fixed;
@@ -262,11 +213,6 @@
 
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .mesh-bg::before,
-  .mesh-bg::after {
-    animation: none;
-  }
-
   .pulse-dot {
     animation: none;
   }
@@ -282,5 +228,9 @@
 
   .shimmer-hover::after {
     transition: none;
+  }
+
+  [data-light-rays] {
+    display: none;
   }
 }
