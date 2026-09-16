@@ -1,4 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "bunVersion": "1.4.x"
+  "bunVersion": "1.4.x",
+  "rewrites": [
+    {
+      "source": "/api/auth/:path*",
+      "destination": "https://mekdara-backend.vercel.app/api/auth/:path*"
+    },
+    {
+      "source": "/health/:path*",
+      "destination": "https://mekdara-backend.vercel.app/health/:path*"
+    }
+  ]
 }
