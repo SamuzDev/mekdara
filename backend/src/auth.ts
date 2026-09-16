@@ -6,21 +6,19 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,
-  ssl: { rejectUnauthorized: false },
 });
 
 export const auth = betterAuth({
   database: pool,
+  baseURL: process.env.BETTER_AUTH_URL,
+  secret: process.env.BETTER_AUTH_SECRET,
   trustedOrigins: [
     process.env.CORS_ORIGIN ?? "http://localhost:5173",
     "https://mekdara.vercel.app",
-    "https://mekdara-frontend.vercel.app",
   ],
-  baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:8080",
-  secret: process.env.BETTER_AUTH_SECRET ?? "mekdara-dev-secret-change-in-production",
   session: {
-    expiresIn: 60 * 60 * 24 * 7, // 7 days
-    updateAge: 60 * 60 * 24,      // 1 day
+    expiresIn: 60 * 60 * 24 * 7,
+    updateAge: 60 * 60 * 24,
     cookieCache: {
       enabled: true,
       maxAge: 60 * 60 * 24 * 7,
@@ -49,8 +47,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID ?? "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     },
   },
   telemetry: {
