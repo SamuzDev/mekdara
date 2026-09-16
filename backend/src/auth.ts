@@ -6,16 +6,25 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,
+  ssl: { rejectUnauthorized: false },
 });
 
 export const auth = betterAuth({
   database: pool,
-  trustedOrigins: [process.env.CORS_ORIGIN ?? "http://localhost:5173"],
+  trustedOrigins: [
+    process.env.CORS_ORIGIN ?? "http://localhost:5173",
+    "https://mekdara.vercel.app",
+    "https://mekdara-frontend.vercel.app",
+  ],
   baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:8080",
   secret: process.env.BETTER_AUTH_SECRET ?? "mekdara-dev-secret-change-in-production",
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24,      // 1 day
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24 * 7,
+    },
   },
   user: {
     additionalFields: {
