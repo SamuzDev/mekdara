@@ -48,6 +48,9 @@ export const auth = betterAuth({
     database: {
       validateSchema: false,
     },
+    defaultCookieAttributes: {
+      sameSite: "none",
+    },
     ipAddress: {
       ipAddressHeaders: [
         "x-forwarded-for",
