@@ -4,8 +4,6 @@
 
 **Convert any web page or document to clean Markdown for LLMs.**
 
-Built by **SamuzDev**
-
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue?style=flat-square)](LICENSE)
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bun/bun-original.svg" width="20" height="20" alt="Bun" />&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="20" height="20" alt="React" />&nbsp;
