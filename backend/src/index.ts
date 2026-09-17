@@ -28,7 +28,10 @@ const app = new Elysia()
     set.headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     set.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()";
   })
-  .onBeforeHandle(async ({ headers, set }) => {
+  .onBeforeHandle(async ({ headers, set, request }) => {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/health")) return;
+
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
     const hasApiKey = apiKey.length > 0;
@@ -47,7 +50,10 @@ const app = new Elysia()
       };
     }
   })
-  .onAfterHandle(async ({ headers, set }) => {
+  .onAfterHandle(async ({ headers, set, request }) => {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/health")) return;
+
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
     const hasApiKey = apiKey.length > 0;
