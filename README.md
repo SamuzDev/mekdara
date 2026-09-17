@@ -41,7 +41,7 @@
 - **Token Counting** - See exactly how many tokens you are passing to your LLM
 - **Download .md** - One-click download as Markdown file
 - **API Access** - REST API with rate limiting and API keys
-- **Dark Mode** - Beautiful glassmorphism UI with mesh gradients
+- **Dark Mode** - Beautiful glassmorphism UI with Aurora Borealis background
 - **Authentication** - Email/password + GitHub OAuth via Better Auth
 
 ## Quick Start
@@ -49,7 +49,7 @@
 ### Option 1: Clone and Run
 
 ```bash
-git clone https://github.com/youruser/mekdara.git
+git clone https://github.com/SamuzDev/mekdara.git
 cd mekdara
 bun install
 
@@ -133,15 +133,15 @@ Convert plain text or structured text (JSON, YAML, etc.).
 
 | Client | Limit | Window |
 | --- | --- | --- |
-| Anonymous | 20 requests | 1 hour |
-| API Key | 200 requests | 1 hour |
-| Authenticated | 500 requests | 1 hour |
+| Anonymous | 50 requests | 1 hour |
+| API Key | 5,000 requests | 24 hours |
+| Welcome Bonus | +5,000 tokens | On sign-up |
 
 Rate limit headers are included in every response:
 
 ```http
-X-RateLimit-Limit: 20
-X-RateLimit-Remaining: 15
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4998
 X-RateLimit-Reset: 1699900000
 ```
 
@@ -151,11 +151,13 @@ X-RateLimit-Reset: 1699900000
 | --- | --- |
 | Runtime | [Bun](https://bun.sh) |
 | Backend | [Elysia](https://elysiajs.com) + TypeScript |
-| Database | SQLite (bun:sqlite) |
-| Auth | [Better Auth](https://better-auth.com) |
+| Database | [Neon Postgres](https://neon.tech) (auth) + SQLite (rate limiting) |
+| Auth | [Better Auth](https://better-auth.com) + GitHub OAuth |
+| Email | [EmailJS](https://www.emailjs.com) |
 | Frontend | [React 19](https://react.dev) + [Vite 8](https://vite.dev) |
 | UI | [Tailwind CSS 4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) |
 | Conversion | [Readability](https://github.com/mozilla/readability) + [Turndown](https://mixmark-io.github.io/turndown/) + [mammoth](https://github.com/mwilliamson/mammoth.js) + [papaparse](https://www.papaparse.com) |
+| Docs | [OpenAPI 3.0](/api/openapi.json) + [Swagger UI](/swagger) |
 
 ## Architecture
 
@@ -171,8 +173,8 @@ graph TB
     Converters --> HTML[html.ts - JSDOM + Readability]
     Converters --> CSV[csv.ts - papaparse]
     Converters --> TEXT[text.ts - passthrough]
-    RateLimit --> SQLite[(SQLite)]
-    Auth --> SQLite
+    RateLimit --> SQLite[(SQLite - local dev)]
+    Auth --> Neon[(Neon Postgres)]
 ```
 
 ## Environment Variables
@@ -182,20 +184,16 @@ graph TB
 | Variable | Default | Description |
 | --- | --- | --- |
 | `PORT` | `8080` | Server port |
-| `HOST` | `0.0.0.0` | Bind address |
 | `CORS_ORIGIN` | `http://localhost:5173` | Allowed origins (comma-separated) |
-| `DB_PATH` | `./data/mekdara.db` | SQLite database path |
-| `DATABASE_URL` | - | PostgreSQL connection string (Neon) |
+| `DATABASE_URL` | - | Neon Postgres connection string (required) |
 | `BETTER_AUTH_SECRET` | - | Auth secret (32+ chars, required) |
 | `BETTER_AUTH_URL` | `http://localhost:8080` | Auth base URL |
 | `GITHUB_CLIENT_ID` | - | GitHub OAuth client ID |
 | `GITHUB_CLIENT_SECRET` | - | GitHub OAuth client secret |
-| `MAX_URL_FETCH_SIZE` | `5242880` | Max URL response size (bytes) |
-| `URL_FETCH_TIMEOUT` | `15000` | URL fetch timeout (ms) |
-| `MAX_FILE_SIZE` | `10485760` | Max upload file size (bytes) |
-| `RATE_LIMIT_ANONYMOUS` | `20` | Requests/hour for anonymous |
-| `RATE_LIMIT_API_KEY` | `200` | Requests/hour with API key |
-| `RATE_LIMIT_AUTHENTICATED` | `500` | Requests/hour for authenticated |
+| `EMAILJS_PUBLIC_KEY` | - | EmailJS public key |
+| `EMAILJS_SERVICE_ID` | - | EmailJS service ID (e.g. `service_xxx`) |
+| `EMAILJS_TEMPLATE_PASSWORD_RESET` | - | EmailJS template for password reset |
+| `EMAILJS_TEMPLATE_VERIFICATION` | - | EmailJS template for email verification |
 
 ### Frontend
 
