@@ -372,7 +372,7 @@ const app = new Elysia()
   })
   .onBeforeHandle(async ({ headers, set, request }) => {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/health")) return;
+    if (url.pathname.startsWith("/health") || url.pathname.startsWith("/api/auth")) return;
 
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
@@ -394,7 +394,7 @@ const app = new Elysia()
   })
   .onAfterHandle(async ({ headers, set, request }) => {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/health")) return;
+    if (url.pathname.startsWith("/health") || url.pathname.startsWith("/api/auth")) return;
 
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
