@@ -1,4 +1,9 @@
+import { useTokenQuotaDisplay } from "@/lib/token-quota";
+import { Key } from "lucide-react";
+
 export function Header() {
+  const quota = useTokenQuotaDisplay();
+
   return (
     <header className="flex flex-col items-center gap-4 text-center">
       <div className="relative">
@@ -29,6 +34,18 @@ export function Header() {
           optimized for LLM context windows
         </p>
       </div>
+
+      {quota && (
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/40 bg-muted/20 transition-colors">
+          <Key className="size-3 text-muted-foreground/50" />
+          <span className="text-xs font-medium text-muted-foreground/70">
+            {quota.remaining}/{quota.limit}
+          </span>
+          <span className="text-[10px] text-muted-foreground/40">
+            ({quota.resetText})
+          </span>
+        </div>
+      )}
 
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         {["URL", "PDF", "DOCX", "CSV", "HTML"].map((fmt) => (

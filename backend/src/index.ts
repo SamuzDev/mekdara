@@ -3,9 +3,10 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { convertRoutes } from "./routes/convert";
 import { authRoutes } from "./routes/auth";
-import { rateLimitPlugin } from "./middleware/rateLimitPlugin";
 import { healthRoutes } from "./routes/health";
 import { logger } from "./middleware/logger";
+import { checkRateLimit, getRateLimitInfo } from "./middleware/rateLimit";
+import { getClientIp } from "./middleware/rateLimitPlugin";
 
 const PORT = parseInt(process.env.PORT ?? "8080", 10);
 const HOST = process.env.HOST ?? "0.0.0.0";
@@ -27,7 +28,36 @@ const app = new Elysia()
     set.headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     set.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()";
   })
-  .use(rateLimitPlugin)
+  .onBeforeHandle(async ({ headers, set }) => {
+    const ip = getClientIp(headers);
+    const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
+    const hasApiKey = apiKey.length > 0;
+    const identifier = hasApiKey ? `key:${apiKey}` : `ip:${ip}`;
+
+    const result = await checkRateLimit(identifier, hasApiKey, hasApiKey ? apiKey : undefined);
+
+    if (!result.allowed) {
+      set.status = 429;
+      set.headers["Retry-After"] = String(
+        Math.ceil((result.resetAt - Date.now()) / 1000)
+      );
+      return {
+        error: "Rate limit exceeded. Try again later.",
+        retryAfter: Math.ceil((result.resetAt - Date.now()) / 1000),
+      };
+    }
+  })
+  .onAfterHandle(async ({ headers, set }) => {
+    const ip = getClientIp(headers);
+    const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
+    const hasApiKey = apiKey.length > 0;
+    const identifier = hasApiKey ? `key:${apiKey}` : `ip:${ip}`;
+    const info = await getRateLimitInfo(identifier, hasApiKey, hasApiKey ? apiKey : undefined);
+
+    set.headers["X-RateLimit-Limit"] = String(info.limit);
+    set.headers["X-RateLimit-Remaining"] = String(info.remaining);
+    set.headers["X-RateLimit-Reset"] = String(Math.ceil(info.resetAt / 1000));
+  })
   .use(healthRoutes)
   .use(authRoutes)
   .use(convertRoutes)

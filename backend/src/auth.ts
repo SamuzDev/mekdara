@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
+import { createAuthMiddleware } from "better-auth/api";
 import { sendPasswordResetEmail, sendVerificationEmail } from "./lib/email";
 
 const pool = new Pool({
@@ -45,11 +46,21 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      welcomeBonusClaimed: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+      },
+      bonusTokens: {
+        type: "number",
+        required: false,
+        defaultValue: 0,
+      },
     },
   },
   emailAndPassword: {
     enabled: true,
-    sendVerificationEmail: async ({ user, url }) => {
+    sendVerificationEmail: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
       const sent = await sendVerificationEmail({
         to: user.email,
         username: user.name,
@@ -57,7 +68,7 @@ export const auth = betterAuth({
       });
       if (!sent) throw new Error("Failed to send verification email");
     },
-    sendResetPassword: async ({ user, url }) => {
+    sendResetPassword: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
       const sent = await sendPasswordResetEmail({
         to: user.email,
         username: user.name,
@@ -87,5 +98,23 @@ export const auth = betterAuth({
   },
   telemetry: {
     enabled: false,
+  },
+  hooks: {
+    after: createAuthMiddleware(async (ctx) => {
+      if (ctx.path.startsWith("/sign-up")) {
+        const userId = ctx.body?.user?.id;
+        if (userId) {
+          try {
+            await pool.query(
+              `UPDATE "user" SET "welcomeBonusClaimed" = true, "bonusTokens" = 5000 WHERE id = $1`,
+              [userId]
+            );
+            console.log(`[Auth] Welcome bonus granted to user ${userId}`);
+          } catch (err) {
+            console.error("[Auth] Failed to grant welcome bonus:", err);
+          }
+        }
+      }
+    }),
   },
 });

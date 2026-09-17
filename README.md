@@ -1,3 +1,5 @@
+![Mekdara banner](./assets/mekdara-banner.svg)
+
 # Mekdara
 
 **Convert any web page or document to clean Markdown for LLMs.**
@@ -5,11 +7,11 @@
 Built by **SamuzDev**
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue?style=flat-square)](LICENSE)
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg" width="20" height="20" alt="Bun" />&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" width="20" height="20" alt="React" />&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20" alt="Tailwind" />&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/elysia/elysia-original.svg" width="20" height="20" alt="Elysia" />&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width="20" height="20" alt="TypeScript" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bun/bun-original.svg" width="20" height="20" alt="Bun" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="20" height="20" alt="React" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20" alt="Tailwind" />&nbsp;
+<img src="https://skillicons.dev/icons?i=elysia" width="20" height="20" alt="Elysia" />&nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="20" height="20" alt="TypeScript" />&nbsp;
 [![Neon](https://img.shields.io/badge/Neon-00D4AA?style=flat-square&logo=neon&logoColor=white)](https://neon.tech)
 
 [Quick Start](#quick-start) | [API](#api-reference) | [Self-Host](#self-hosted-deployment)

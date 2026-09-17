@@ -14,12 +14,21 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#09090b" />
 
-    <!-- Fonts: preload for faster FCP -->
+    <!-- Resource Hints for LCP optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://mekdara-backend.vercel.app" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://mekdara-backend.vercel.app" />
+
+    <!-- Fonts: preload for faster FCP/LCP -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
 
     <!-- Open Graph (og:image must be absolute for social crawlers) -->
@@ -52,6 +61,14 @@
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "featureList": ["Convert web pages to Markdown", "Convert PDF to Markdown", "Token counting for LLM context"]
     }
+    </script>
+
+    <!-- Performance: Speculation Rules API for instant navigation -->
+    <script type="speculationrules">
+    {
+      "prefetch": [
+        { "source": "list", "where": { "and": [{ "href_matches": "/*" }] } }
+      ]
     </script>
 
   </head>

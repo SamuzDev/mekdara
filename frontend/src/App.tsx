@@ -16,10 +16,11 @@ import { AuroraBackground } from "./components/AuroraBackground";
 import { useSession } from "@/lib/auth-client";
 import { LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TokenQuotaProvider, useTokenQuotaDisplay, useTokenQuota } from "@/lib/token-quota";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 
-function App() {
+function AppInner() {
   const { data: session, isPending } = useSession();
   const [activeTab, setActiveTab] = useState<Tab>("url");
   const [markdown, setMarkdown] = useState("");
@@ -29,7 +30,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [rateLimitInfo, setRateLimitInfo] = useState<{ remaining: number; limit: number } | null>(null);
+  const quota = useTokenQuotaDisplay();
+  const { updateQuota, resetQuota } = useTokenQuota();
 
   useEffect(() => {
     const stored = localStorage.getItem("mekdara_api_key");
@@ -51,11 +53,7 @@ function App() {
   if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
 
   const handleRateLimitHeaders = (res: Response) => {
-    const limit = res.headers.get("X-RateLimit-Limit");
-    const remaining = res.headers.get("X-RateLimit-Remaining");
-    if (limit && remaining) {
-      setRateLimitInfo({ remaining: Number(remaining), limit: Number(limit) });
-    }
+    updateQuota(res.headers);
   };
 
   const resetState = () => {
@@ -163,10 +161,10 @@ function App() {
   const handleClearApiKey = () => {
     setApiKey(null);
     localStorage.removeItem("mekdara_api_key");
-    setRateLimitInfo(null);
+    resetQuota();
   };
 
-  const ratePercent = rateLimitInfo ? (rateLimitInfo.remaining / rateLimitInfo.limit) * 100 : 0;
+  const ratePercent = quota ? quota.percentage : 0;
   const rateColor = ratePercent > 50 ? "bg-emerald-400/70" : ratePercent > 20 ? "bg-amber-400/70" : "bg-destructive/60";
 
   return (
@@ -207,7 +205,7 @@ function App() {
         </div>
 
         {/* Rate limit bar */}
-        {rateLimitInfo && (
+        {quota && (
           <div className="flex flex-col gap-1.5 -mt-6 fade-in">
             <div className="rate-bar-track">
               <div
@@ -216,7 +214,10 @@ function App() {
               />
             </div>
             <p className="text-[10px] text-muted-foreground/30">
-              {rateLimitInfo.remaining}/{rateLimitInfo.limit} requests remaining
+              {quota.remaining}/{quota.limit} requests remaining
+            </p>
+            <p className="text-[10px] text-muted-foreground/30">
+              Resets in {quota.resetText}
             </p>
           </div>
         )}
@@ -258,6 +259,14 @@ function App() {
 
       <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <TokenQuotaProvider>
+      <AppInner />
+    </TokenQuotaProvider>
   );
 }
 

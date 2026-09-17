@@ -124,7 +124,8 @@ async function isPrivateUrl(urlString: string): Promise<boolean> {
 function isPrivateIp(ip: string): boolean {
   const parts = ip.split(".").map(Number);
   if (parts.length !== 4 || parts.some((p) => isNaN(p) || p < 0 || p > 255)) return true;
-  const [a, b] = parts;
+  const a = parts[0] ?? 0;
+  const b = parts[1] ?? 0;
   return (
     a === 0 ||
     a === 10 ||
