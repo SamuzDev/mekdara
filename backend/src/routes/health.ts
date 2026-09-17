@@ -1,5 +1,7 @@
 import { Elysia } from "elysia";
 import { Pool } from "pg";
+import { checkRateLimit, getRateLimitInfo } from "../middleware/rateLimitVercel";
+import { getClientIp } from "../middleware/rateLimitPluginVercel";
 
 let dbPool: Pool | null = null;
 
@@ -31,4 +33,18 @@ export const healthRoutes = new Elysia()
     } catch {
       return { status: "error" };
     }
+  })
+  .get("/health/rate-limit", async ({ headers }) => {
+    const ip = getClientIp(headers);
+    const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
+    const hasApiKey = apiKey.length > 0;
+    const identifier = hasApiKey ? `key:${apiKey}` : `ip:${ip}`;
+
+    const info = await getRateLimitInfo(identifier, hasApiKey, hasApiKey ? apiKey : undefined);
+
+    return {
+      limit: info.limit,
+      remaining: info.remaining,
+      resetAt: info.resetAt,
+    };
   });

@@ -10,12 +10,10 @@ import {
  * Uses Vercel's trusted x-vercel-forwarded-for header first,
  * then falls back to X-Forwarded-For (rightmost untrusted IP).
  */
-function getClientIp(headers: Record<string, string | undefined>): string {
-  // Vercel sets this header — it's trusted and cannot be spoofed by clients
+export function getClientIp(headers: Record<string, string | undefined>): string {
   const vercelIp = headers["x-vercel-forwarded-for"];
   if (vercelIp) return vercelIp.trim();
 
-  // Behind other proxies: use the RIGHTmost IP (closest to server = real client)
   const forwarded = headers["x-forwarded-for"];
   if (forwarded) {
     const ips = forwarded.split(",").map((ip) => ip.trim());
@@ -32,14 +30,14 @@ function getClientIp(headers: Record<string, string | undefined>): string {
  * the limit is higher.
  */
 export const rateLimitPluginVercel = new Elysia({ name: "rate-limit-vercel" })
-  .onBeforeHandle(({ headers, set }) => {
+  .onBeforeHandle(async ({ headers, set }) => {
+    console.log("[RateLimit] onBeforeHandle running");
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
     const hasApiKey = apiKey.length > 0;
-    const config = getRateLimitConfig(hasApiKey);
     const identifier = hasApiKey ? `key:${apiKey}` : `ip:${ip}`;
 
-    const result = checkRateLimit(identifier, config);
+    const result = await checkRateLimit(identifier, hasApiKey, hasApiKey ? apiKey : undefined);
 
     if (!result.allowed) {
       set.status = 429;
@@ -51,15 +49,17 @@ export const rateLimitPluginVercel = new Elysia({ name: "rate-limit-vercel" })
         retryAfter: Math.ceil((result.resetAt - Date.now()) / 1000),
       };
     }
+    console.log("[RateLimit] onBeforeHandle done");
   })
-  .onAfterHandle(({ headers, set }) => {
+  .onAfterHandle(async ({ headers, set }) => {
+    console.log("[RateLimit] onAfterHandle running");
     const ip = getClientIp(headers);
     const apiKey = headers["authorization"]?.replace("Bearer ", "") ?? "";
     const hasApiKey = apiKey.length > 0;
-    const config = getRateLimitConfig(hasApiKey);
     const identifier = hasApiKey ? `key:${apiKey}` : `ip:${ip}`;
-    const info = getRateLimitInfo(identifier, config);
+    const info = await getRateLimitInfo(identifier, hasApiKey, hasApiKey ? apiKey : undefined);
 
+    console.log("[RateLimit] Setting headers:", info);
     set.headers["X-RateLimit-Limit"] = String(info.limit);
     set.headers["X-RateLimit-Remaining"] = String(info.remaining);
     set.headers["X-RateLimit-Reset"] = String(Math.ceil(info.resetAt / 1000));
