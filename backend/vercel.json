@@ -2,8 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "bunVersion": "1.4.x",
   "installCommand": "bash install.sh",
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
   "functions": {
-    "server.ts": {
+    "server.js": {
       "maxDuration": 30
     }
   }
