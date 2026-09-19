@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run dist/server.js",
-    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external pdf-parse --external @napi-rs/canvas"
+    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external @napi-rs/canvas && cp node_modules/pdfjs-dist/build/pdf.worker.mjs dist/pdf.worker.mjs"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
@@ -27,6 +27,7 @@
     "mammoth": "^1.12.3",
     "papaparse": "^5.7.0",
     "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "5.4.296",
     "pg": "^8.23.0",
     "react": "^19.3.0",
     "turndown": "^7.2.4",
