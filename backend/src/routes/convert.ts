@@ -39,6 +39,7 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
         const result = await convertUrl(body.url);
         return buildResponse(result.markdown, "url", result.title, result.metadata);
       } catch (err) {
+        console.error("[Convert/URL]", err);
         set.status = 400;
         return { error: getErrorMessage(err) };
       }
@@ -97,6 +98,7 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
         const result = await convertBuffer(buffer, "input.html");
         return buildResponse(result.markdown, "html", result.title, result.metadata);
       } catch (err) {
+        console.error("[Convert/HTML]", err);
         set.status = 422;
         return { error: "Failed to process the HTML content" };
       }
