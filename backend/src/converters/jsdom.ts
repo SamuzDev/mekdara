@@ -15,7 +15,6 @@ export async function getJSDOM(): Promise<typeof import("jsdom").JSDOM> {
     JSDOMConstructor = jsdomModule.JSDOM;
     return JSDOMConstructor;
   } catch (error) {
-    console.error("[JSDOM] Failed to load:", String(error));
     throw new Error(
       "JSDOM is not available in this environment. HTML/URL conversion requires JSDOM."
     );
