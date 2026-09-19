@@ -1,30 +1,13 @@
 /**
- * Dynamic JSDOM wrapper for environments where JSDOM may not be available
- * (e.g., Vercel build with Node.js). Only loads at runtime.
+ * JSDOM wrapper with static import for Vercel nft compatibility.
+ * Static imports allow Vercel's file tracer to resolve and include jsdom.
  */
 
-let JSDOMConstructor: typeof import("jsdom").JSDOM | null = null;
-
-export async function getJSDOM(): Promise<typeof import("jsdom").JSDOM> {
-  if (JSDOMConstructor) {
-    return JSDOMConstructor;
-  }
-
-  try {
-    const jsdomModule = await import("jsdom");
-    JSDOMConstructor = jsdomModule.JSDOM;
-    return JSDOMConstructor;
-  } catch (error) {
-    throw new Error(
-      "JSDOM is not available in this environment. HTML/URL conversion requires JSDOM."
-    );
-  }
-}
+import { JSDOM } from "jsdom";
 
 export async function createDOM(
   html: string,
-  options?: ConstructorParameters<typeof import("jsdom").JSDOM>[1]
-): Promise<InstanceType<typeof import("jsdom").JSDOM>> {
-  const JSDOM = await getJSDOM();
+  options?: ConstructorParameters<typeof JSDOM>[1]
+): Promise<InstanceType<typeof JSDOM>> {
   return new JSDOM(html, options);
 }
