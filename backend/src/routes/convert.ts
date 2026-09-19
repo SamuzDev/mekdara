@@ -40,7 +40,7 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
         return buildResponse(result.markdown, "url", result.title, result.metadata);
       } catch (err) {
         set.status = 400;
-        return { error: getErrorMessage(err) };
+        return { error: getErrorMessage(err), _debug: err instanceof Error ? err.message : String(err) };
       }
     },
     { body: urlRequestSchema }
@@ -98,7 +98,7 @@ export const convertRoutes = new Elysia({ prefix: "/api/convert" })
         return buildResponse(result.markdown, "html", result.title, result.metadata);
       } catch (err) {
         set.status = 422;
-        return { error: "Failed to process the HTML content" };
+        return { error: "Failed to process the HTML content", _debug: err instanceof Error ? err.message : String(err) };
       }
     },
     { body: t.Object({ content: t.String({ minLength: 1, maxLength: MAX_CONTENT_LENGTH }) }) }
