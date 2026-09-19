@@ -6,7 +6,7 @@
   "license": "GPL-3.0-only",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run dist/index.js",
+    "start": "bun run dist/server.js",
     "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external jsdom --external @mozilla/readability --external @napi-rs/canvas"
   },
   "devDependencies": {

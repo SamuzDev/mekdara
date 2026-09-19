@@ -3,5 +3,10 @@
   "bunVersion": "1.4.x",
   "installCommand": "bash install.sh",
   "buildCommand": "bun run build",
-  "outputDirectory": "dist"
+  "outputDirectory": ".",
+  "functions": {
+    "dist/server.js": {
+      "maxDuration": 30
+    }
+  }
 }
