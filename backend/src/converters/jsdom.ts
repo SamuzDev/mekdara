@@ -1,13 +1,10 @@
 /**
- * JSDOM wrapper with static import for Vercel nft compatibility.
- * Static imports allow Vercel's file tracer to resolve and include jsdom.
+ * DOM parser using linkedom (lightweight, zero native deps).
+ * Drop-in replacement for jsdom that works in serverless environments.
  */
 
-import { JSDOM } from "jsdom";
+import { parseHTML } from "linkedom";
 
-export async function createDOM(
-  html: string,
-  options?: ConstructorParameters<typeof JSDOM>[1]
-): Promise<InstanceType<typeof JSDOM>> {
-  return new JSDOM(html, options);
+export function createDOM(html: string): { document: any; window: any } {
+  return parseHTML(html);
 }

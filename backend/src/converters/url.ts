@@ -202,8 +202,8 @@ export async function convertUrl(url: string): Promise<ConversionResult> {
     }
 
     const htmlContent = new TextDecoder().decode(arrayBuffer);
-    const dom = await createDOM(htmlContent, { url });
-    const reader = new Readability(dom.window.document);
+    const { document } = createDOM(htmlContent);
+    const reader = new Readability(document);
     const article = reader.parse();
 
     let markdown: string;
@@ -213,14 +213,14 @@ export async function convertUrl(url: string): Promise<ConversionResult> {
       markdown = turndown.turndown(article.content);
       extractionMethod = "readability";
     } else {
-      const body = dom.window.document.body;
+      const body = document.body;
       markdown = turndown.turndown(body?.innerHTML ?? htmlContent);
       extractionMethod = "full-html";
     }
 
     return {
       markdown,
-      title: article?.title ?? dom.window.document.title ?? undefined,
+      title: article?.title ?? document.title ?? undefined,
       metadata: {
         url,
         extractionMethod,

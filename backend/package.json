@@ -7,11 +7,10 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run dist/server.js",
-    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external jsdom --external @mozilla/readability --external @napi-rs/canvas"
+    "build": "bun build ./server.ts --outfile=dist/server.js --target=node --external elysia --external @elysiajs/* --external @napi-rs/canvas"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
-    "@types/jsdom": "^30.0.0",
     "@types/papaparse": "^5.5.2",
     "@types/turndown": "^5.0.6"
   },
@@ -24,7 +23,7 @@
     "@types/pg": "^8.23.1",
     "better-auth": "1.7.5",
     "elysia": "^1.4.30",
-    "jsdom": "^30.0.1",
+    "linkedom": "^0.18.13",
     "mammoth": "^1.12.3",
     "papaparse": "^5.7.0",
     "pdf-parse": "^2.4.5",
